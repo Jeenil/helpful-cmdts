@@ -1,0 +1,13 @@
+{
+   "version": "0.2",
+   "language": "en",
+   "ignorePaths": [
+      "node_modules/",
+      "dist/",
+      "bun.lock",
+      "*.tsbuildinfo"
+   ],
+   "words": [
+      "cmdts"
+   ] // add project-specific words here that aren't in the dictionary
+}
