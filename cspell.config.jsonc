@@ -8,6 +8,8 @@
       "*.tsbuildinfo"
    ],
    "words": [
-      "cmdts"
+      "Cheatsheet",
+      "cmdts",
+      "helmrelease"
    ] // add project-specific words here that aren't in the dictionary
 }
