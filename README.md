@@ -7,6 +7,9 @@ A personal reference for commands used day-to-day.
 Kubernetes (kubectl + Flux)
 [https://kubernetes.io/docs/reference/kubectl/quick-reference/]
 
+GitHub CLI (gh)
+[https://cli.github.com/manual/]
+
 ## Bun (project scaffold)
 
 ```bash
