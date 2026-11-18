@@ -28,38 +28,72 @@ Get-GPO -All | ForEach-Object {
 ## 2. Find GPOs that contain drive maps
 
 Drive maps live under User Configuration > Preferences > Windows Settings >
-Drive Maps (`Drives.xml` in SYSVOL).
+Drive Maps. Read them through `Get-GPOReport` (AD permissions) rather than
+crawling `Drives.xml` in SYSVOL, which fails with "Access denied" on GPOs whose
+folder ACL excludes your account.
 
 ```powershell
-$domain = (Get-ADDomain).DNSRoot
-Get-ChildItem "\\$domain\SYSVOL\$domain\Policies" -Recurse -Filter Drives.xml |
-    ForEach-Object {
-        $guid = ($_.FullName -split '\\')[6].Trim('{}')
-        [xml]$x = Get-Content $_.FullName
-        foreach ($d in $x.Drives.Drive) {
-            [pscustomobject]@{
-                GPO      = (Get-GPO -Guid $guid).DisplayName
-                Letter   = $d.Properties.letter
-                Path     = $d.Properties.path
-                Label    = $d.Properties.label
-                Action   = $d.Properties.action
-                Filter   = $d.Filters.OuterXml -ne $null
-            }
+$d = 'corp.logixhealth.local'   # variables do not carry over between sessions
+$out = Get-GPO -All -Domain $d | ForEach-Object {
+    $gpo = $_
+    [xml]$x = Get-GPOReport -Guid $gpo.Id -Domain $d -ReportType Xml
+    foreach ($dr in $x.GPO.User.ExtensionData.Extension.DriveMapSettings.Drive) {
+        [pscustomobject]@{
+            GPO    = $gpo.DisplayName
+            Letter = $dr.Properties.letter
+            Path   = $dr.Properties.path
+            Label  = $dr.Properties.label
+            Action = $dr.Properties.action   # C=Create U=Update R=Replace D=Delete
+            Filter = ($dr.Filters.InnerText -join '; ')   # item-level targeting
         }
-    } | Export-Csv C:\Temp\gpo-drive-maps.csv -NoTypeInformation
+    }
+}
+$out | Sort GPO, Letter | Format-Table -AutoSize
+$out | Export-Csv C:\Temp\gpo-drive-maps.csv -NoTypeInformation
 ```
 
-## 3. Find where each GPO is linked
+Pull a single GPO:
 
 ```powershell
-Get-GPO -All | ForEach-Object {
-    [xml]$r = Get-GPOReport -Guid $_.Id -ReportType Xml
-    [pscustomobject]@{
-        GPO   = $_.DisplayName
-        Links = ($r.GPO.LinkedTo.SOMPath) -join '; '
-    }
-} | Where-Object Links
+[xml]$x = Get-GPOReport -Name 'User - Mapped_Drives' -Domain $d -ReportType Xml
+$x.GPO.User.ExtensionData.Extension.DriveMapSettings.Drive
 ```
+
+`Action` `D` entries only remove a drive; do not recreate them elsewhere.
+
+## 3. Check status, links and who it applies to
+
+Run for the GPOs found above. Shows whether the GPO is enabled, where it is
+linked (the OU level), whether the link is enabled or enforced, and the security
+filtering.
+
+```powershell
+$names = 'Mapped_Drives|Drive_Mapping|QuickBooksDrive'
+$rows = Get-GPO -All -Domain $d | Where DisplayName -match $names | ForEach-Object {
+    $gpo = $_
+    [xml]$x = Get-GPOReport -Guid $gpo.Id -Domain $d -ReportType Xml
+    $apply = (Get-GPPermission -Guid $gpo.Id -All -Domain $d |
+              Where Permission -eq GpoApply | ForEach-Object { $_.Trustee.Name }) -join '; '
+    $links = @($x.GPO.LinksTo); if (-not $links) { $links = @($null) }
+    foreach ($l in $links) {
+        [pscustomobject]@{
+            GPO         = $gpo.DisplayName
+            GpoStatus   = $gpo.GpoStatus     # AllSettingsEnabled / UserSettingsDisabled / AllSettingsDisabled
+            UserEnabled = $x.GPO.User.Enabled
+            LinkedTo    = $l.SOMPath         # empty = not linked anywhere
+            LinkEnabled = $l.Enabled
+            Enforced    = $l.NoOverride
+            AppliesTo   = $apply             # security filtering
+            WmiFilter   = $gpo.WmiFilter.Name
+        }
+    }
+}
+$rows | Sort GPO, LinkedTo | Format-Table -AutoSize -Wrap
+```
+
+Also check loopback policy (`Computer - Loopback_Merge/Replace_User_Policy`) on
+the linked OUs, since it changes which user GPOs apply on shared machines such
+as Citrix and AVD.
 
 ## 4. Other places SMB mappings hide
 
@@ -72,6 +106,17 @@ Get-GPO -All | ForEach-Object {
 Select-String -Path C:\Temp\gpo-reports\*.xml -Pattern '\\\\[\w.-]+\\[\w$.-]+' |
     Select-Object -ExpandProperty Matches | Select-Object -ExpandProperty Value -Unique
 ```
+
+## Troubleshooting
+
+- `The specified domain either does not exist or could not be contacted`: run in
+  a session logged on to the domain (`nltest /dsgetdc:<domain>` should return a
+  DC), or pass `-Domain <fqdn>`.
+- `Get-GPO` prompts for `Guid`: use `Get-GPO -All`, not `Get-GPO *`.
+- `Access ... is denied` on a SYSVOL policy folder: `Get-GPO` uses AD
+  permissions, SYSVOL has a separate NTFS ACL. Use `Get-GPOReport`, or an
+  account with SYSVOL read.
+- `-Domain` empty or bound twice: set `$d` in the current session first.
 
 ## Notes
 
