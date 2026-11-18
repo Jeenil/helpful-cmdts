@@ -49,7 +49,7 @@ $out = Get-GPO -All -Domain $d | ForEach-Object {
     }
 }
 $out | Sort GPO, Letter | Format-Table -AutoSize
-$out | Export-Csv C:\Temp\gpo-drive-maps.csv -NoTypeInformation
+$out | Export-Csv C:\_IT\DATA\drive_maps_actions.csv -NoTypeInformation
 ```
 
 Pull a single GPO:
