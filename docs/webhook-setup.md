@@ -1,5 +1,6 @@
 ---
 title: Teams alert channel + webhook
+parent: Microsoft
 ---
 
 # Teams alert channel + webhook (Azure Files storage alerts)

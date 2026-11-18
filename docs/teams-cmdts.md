@@ -1,5 +1,6 @@
 ---
 title: Teams commands
+parent: Microsoft
 ---
 
 # Microsoft Teams Commands

@@ -1,5 +1,6 @@
 ---
 title: Azure Key Vault
+parent: Azure
 ---
 
 # Azure Key Vault Commands

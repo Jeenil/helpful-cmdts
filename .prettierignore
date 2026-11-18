@@ -1,2 +1,5 @@
 bun.lock
 node_modules
+# Jekyll files with Liquid that Prettier cannot parse
+docs/assets
+docs/_includes

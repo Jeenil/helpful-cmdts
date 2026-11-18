@@ -1,5 +1,6 @@
 ---
 title: Microsoft Graph
+parent: Microsoft
 ---
 
 # Graph API opens up the door to a lot of MSFT Endpoints

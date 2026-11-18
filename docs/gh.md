@@ -1,5 +1,6 @@
 ---
 title: GitHub CLI
+parent: Git
 ---
 
 # GitHub CLI (gh) Commands

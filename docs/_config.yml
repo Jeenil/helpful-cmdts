@@ -1,2 +1,15 @@
 title: Helpful Commands
-theme: jekyll-theme-cayman
+description: A personal reference for commands used day-to-day.
+url: https://jeenil.github.io
+baseurl: /helpful-cmdts
+
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-remote-theme
+
+search_enabled: true
+heading_anchors: true
+
+aux_links:
+  GitHub: https://github.com/Jeenil/helpful-cmdts
+aux_links_new_tab: true

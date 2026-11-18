@@ -1,0 +1,20 @@
+<button class="btn js-toggle-theme" type="button" aria-label="Toggle light and dark theme">
+  Toggle theme
+</button>
+
+<script>
+  (function () {
+    var button = document.querySelector(".js-toggle-theme");
+    var saved = localStorage.getItem("theme");
+    var preferred =
+      saved ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    jtd.setTheme(preferred);
+
+    jtd.addEvent(button, "click", function () {
+      var next = jtd.getTheme() === "dark" ? "light" : "dark";
+      jtd.setTheme(next);
+      localStorage.setItem("theme", next);
+    });
+  })();
+</script>

@@ -1,5 +1,6 @@
 ---
 title: On-prem GPOs for SMB share mappings
+parent: On-prem
 ---
 
 # On-prem GPOs for SMB share mappings

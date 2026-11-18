@@ -1,5 +1,6 @@
 ---
 title: kubectl
+parent: Kubernetes
 ---
 
 # kubectl Commands
