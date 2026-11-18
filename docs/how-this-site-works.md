@@ -12,8 +12,9 @@ Reference: [About GitHub Pages and Jekyll](https://docs.github.com/en/pages/sett
 1. Markdown lives next to the code (`git/gh.md`, `kubernetes/kubectl.md`, ...).
 2. `bun run docs` runs `scripts/build-docs.sh`, which copies each file into
    `docs/` and adds front matter (`title`).
-3. Commit and push. GitHub Pages runs Jekyll on `docs/` and publishes the
-   result at `https://jeenil.github.io/helpful-cmdts/`.
+3. Commit and push to `master`. The `Deploy docs to GitHub Pages` workflow
+   (`.github/workflows/pages.yml`) runs `bun run docs`, builds `docs/` with
+   Jekyll, and publishes the result at `https://jeenil.github.io/helpful-cmdts/`.
 
 Edit the original files, not the copies in `docs/`. The copies are overwritten
 on every run. The exceptions are hand-written pages that exist only in
@@ -32,19 +33,19 @@ on every run. The exceptions are hand-written pages that exist only in
   built unless listed under `include`.
 - The theme is `jekyll-theme-cayman`, one of the themes GitHub supports
   out of the box.
-- Only GitHub-supported plugins work with the branch-based build. See
+- The workflow uses `actions/jekyll-build-pages`, so only GitHub-supported
+  plugins work. See
   <https://pages.github.com/versions.json>.
 
 ## Publishing settings
 
 Settings > Pages > Build and deployment:
 
-- Source: Deploy from a branch
-- Branch: `master`, folder `/docs`
+- Source: GitHub Actions
 
-GitHub's docs now recommend GitHub Actions for deploying and automating Pages.
-Switching later means adding a workflow and changing the source to
-"GitHub Actions"; the `docs/` content stays the same.
+The workflow also runs on demand from the Actions tab (`workflow_dispatch`). The
+copies in `docs/` are regenerated in CI, so committing them is optional, but it
+keeps the repo browsable without a build.
 
 ## Preview locally (optional)
 
