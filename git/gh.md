@@ -13,9 +13,42 @@ gh auth refresh -h github.com -s delete_repo
 
 > Required before `gh repo delete` the default token doesn't include this scope.
 
+```bash
+# Show all logged-in accounts and which one is active
+gh auth status
+
+# Switch the active account (global, affects every terminal)
+gh auth switch --user <username>
+
+# Print the token of the active account (used by scripts such as the gc helper)
+gh auth token
+```
+
+> Copilot features (such as LLM commit messages) work only on an account that
+> has a Copilot license. Switch to that account first.
+
 ---
 
 ## Repos
+
+```bash
+# Fork a repo into your account, clone it, and add the upstream remote
+gh repo fork <owner>/<repo> --clone --remote
+
+# Rename a repo (keeps history, issues, and stars; GitHub redirects the old URL)
+gh repo rename <new-name> --repo <owner>/<repo> --yes
+
+# Change visibility (GitHub asks you to confirm)
+gh repo edit <owner>/<repo> --visibility public --accept-visibility-change-consequences
+
+# Check visibility
+gh repo view <owner>/<repo> --json visibility -q .visibility
+```
+
+> Old commits stay reachable by SHA after a visibility change. To publish a
+> repo without its history: rename the old repo, create a new repo with the
+> original name, and push one clean commit (`git init`, `git add -A`,
+> `git commit`).
 
 ```bash
 # Delete a repo (requires delete_repo scope see Auth above)
