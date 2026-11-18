@@ -1,0 +1,8 @@
+{
+  // Prettier handles formatting, and this repo is mostly long shell commands.
+  "MD013": false,
+  // Docs pages start with front matter and a title, so the first line is not always an H1.
+  "MD041": false,
+  // The front matter "title" is for Jekyll and the page also has its own H1.
+  "MD025": { "front_matter_title": "" },
+}

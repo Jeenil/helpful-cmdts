@@ -122,8 +122,8 @@ kubectl describe pod <pod-name> -n pwsh-cron-jobs
 | `Pending`          | Scheduled but not started yet (pulling image, waiting for node) |
 | `Running`          | Container is active                                             |
 | `Completed`        | Finished successfully                                           |
-| `OOMKilled`        | Ran out of memory check logs                                  |
-| `CrashLoopBackOff` | Keeps failing and restarting                                     |
+| `OOMKilled`        | Ran out of memory check logs                                    |
+| `CrashLoopBackOff` | Keeps failing and restarting                                    |
 
 ---
 

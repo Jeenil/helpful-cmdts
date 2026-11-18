@@ -1,11 +1,12 @@
 {
   "name": "helpful-cmdts",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "module": "index.ts",
   "scripts": {
-    "lint": "bun tsc --noEmit && eslint . && prettier --check .",
-    "format": "prettier --write ."
+    "docs": "bash scripts/build-docs.sh",
+    "format": "prettier --write .",
+    "lint": "bun tsc --noEmit && eslint . && prettier --check ."
   },
   "devDependencies": {
     "@types/bun": "latest",

@@ -133,10 +133,10 @@ Full card used in the True branch:
 }
 ```
 
-The suggested quota is the current usage (`metricValue`, bytes) divided by the
-bytes in 0.8 GiB, rounded up to the next 500 GiB with `formatNumber` (`int`
-fails on fractional values). It only applies to capacity
-alerts. Applying it means changing the share quota in Terraform.
+The suggested quota is the current usage (`metricValue`, bytes) divided by
+400 GiB (429496729600 bytes, i.e. 80% of a 500 GiB step), rounded up to the next
+500 GiB with `formatNumber` (`int` fails on fractional values). It only applies
+to capacity alerts. Applying it means changing the share quota in Terraform.
 
 A curl test must include `alertTargetIDs` and `firedDateTime`; the minimal
 payload hides these failures. To replay a real alert, use Resubmit on a run in

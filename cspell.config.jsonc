@@ -1,15 +1,6 @@
 {
-   "version": "0.2",
-   "language": "en",
-   "ignorePaths": [
-      "node_modules/",
-      "dist/",
-      "bun.lock",
-      "*.tsbuildinfo"
-   ],
-   "words": [
-      "Cheatsheet",
-      "cmdts",
-      "helmrelease"
-   ] // add project-specific words here that aren't in the dictionary
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": ["node_modules/", "dist/", "bun.lock", "*.tsbuildinfo"],
+  "words": ["Cheatsheet", "cmdts", "helmrelease"], // add project-specific words here that aren't in the dictionary
 }
