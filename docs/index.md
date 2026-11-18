@@ -7,9 +7,9 @@ permalink: /
 # How this site is built
 
 A personal reference for commands used day-to-day. Use the search box or the
-sidebar to find a page, and the **Toggle theme** button to switch between light
-and dark. The theme follows your system setting by default and remembers your
-choice.
+sidebar to find a page, and the sun/moon slider to switch between light
+and dark. It starts in dark mode, like [sillydodo.net](https://sillydodo.net), and
+remembers your choice.
 
 This site is GitHub Pages serving a Jekyll build of the `docs/` folder with the
 [Just the Docs](https://just-the-docs.com/) theme. Reference:
@@ -53,7 +53,8 @@ this page, the section pages (`azure.md`, `git.md`, `kubernetes.md`,
   GitHub Pages supports). Search is built in and runs in the browser.
 - The light and dark styles are `docs/assets/css/just-the-docs-light.scss` and
   `just-the-docs-dark.scss`. The toggle button lives in
-  `docs/_includes/header_custom.html`.
+  `docs/_includes/header_custom.html` and is styled in
+  `docs/_sass/custom/custom.scss`.
 - To change colours, add `docs/_sass/color_schemes/<name>.scss` that overrides
   theme variables and use it in the same way as the dark and light files.
 

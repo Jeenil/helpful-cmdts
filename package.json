@@ -5,6 +5,7 @@
   "module": "index.ts",
   "scripts": {
     "docs": "bash scripts/build-docs.sh",
+    "fix": "eslint --fix . && prettier --write .",
     "format": "prettier --write .",
     "lint": "bun tsc --noEmit && eslint . && prettier --check ."
   },

@@ -11,5 +11,6 @@ search_enabled: true
 heading_anchors: true
 
 aux_links:
+  Portfolio: https://sillydodo.net
   GitHub: https://github.com/Jeenil/helpful-cmdts
 aux_links_new_tab: true

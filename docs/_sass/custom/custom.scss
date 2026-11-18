@@ -1,0 +1,66 @@
+// Theme toggle slider: a sun/moon pill whose knob slides to the active side, on a gradient track.
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 3.5rem;
+  height: 1.75rem;
+  margin: 0.5rem 0 0.5rem 1rem;
+  padding: 0 0.45rem;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #b085f5, #8f5ee6);
+  border: 0;
+  border-radius: 999px;
+  transition: filter 0.15s ease;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  // The icon under the knob is the active mode, so it gets a dark colour to stay visible.
+  .icon-sun {
+    color: #e08a00;
+  }
+}
+
+.theme-toggle-knob {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+// In dark mode the knob sits on the moon (right) and the track turns gold. Both gradients use
+// the accent colours from sillydodo.net (psychedelic purple and acid gold).
+html[data-theme="dark"] .theme-toggle {
+  background: linear-gradient(135deg, #f9d423, #e8891c);
+
+  .theme-toggle-knob {
+    transform: translateX(1.75rem);
+  }
+
+  .icon-sun {
+    color: #fff;
+  }
+
+  .icon-moon {
+    color: #8f5ee6;
+  }
+}
