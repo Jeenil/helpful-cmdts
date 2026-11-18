@@ -7,7 +7,7 @@ permalink: /
 # How this site is built
 
 A personal reference for commands used day-to-day. Use the search box or the
-sidebar to find a page, and the sun/moon slider to switch between light
+sidebar to find a page, and the toggle button to switch between light
 and dark. It starts in dark mode, like [sillydodo.net](https://sillydodo.net), and
 remembers your choice.
 
